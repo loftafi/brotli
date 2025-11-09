@@ -4,10 +4,15 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
-    const lib = b.addStaticLibrary(.{
-        .name = "brotli",
+    const module = b.addModule("brotli", .{
         .target = target,
         .optimize = optimize,
+    });
+
+    const lib = b.addLibrary(.{
+        .linkage = .static,
+        .name = "brotli",
+        .root_module = module,
     });
 
     lib.linkLibC();
